@@ -1,8 +1,8 @@
 <?php
 
-namespace Devops\Health\Notifications;
+namespace Dimitriytiho\DevopsHealth\Notifications;
 
-use Devops\Health\Collections\ResultCollection;
+use Dimitriytiho\DevopsHealth\Collections\ResultCollection;
 
 class DevopsHealthNotification extends \Spatie\Health\Notifications\CheckFailedNotification
 {

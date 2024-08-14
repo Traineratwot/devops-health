@@ -1,6 +1,6 @@
 <?php
 
-namespace Devops\Health\Checks;
+namespace Dimitriytiho\DevopsHealth\Checks;
 
 use Carbon\Carbon;
 use Composer\InstalledVersions;

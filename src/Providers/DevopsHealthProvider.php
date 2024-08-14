@@ -6,14 +6,10 @@
  * Time: 14:35
  */
 
-namespace Devops\Health\Providers;
+namespace Dimitriytiho\DevopsHealth\Providers;
 
-use App\Packages\Health\Checks\PlaceLastChangeDateCheck;
-use App\Packages\Health\Checks\PlaceLastPriceDateCheck;
-use App\Packages\Health\Checks\PlaceLastStockDateCheck;
-use Devops\Health\Channels\DevopsHealthChannel;
-use Devops\Health\Checks\QueueCheck;
-use Devops\Health\Notifications\DevopsHealthNotification;
+use Dimitriytiho\DevopsHealth\Channels\DevopsHealthChannel;
+use Dimitriytiho\DevopsHealth\Checks\QueueCheck;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -55,9 +51,9 @@ class DevopsHealthProvider extends ServiceProvider
             DatabaseCheck::new(),
             DatabaseSizeCheck::new()->failWhenSizeAboveGb(errorThresholdGb: 5.0),
             DebugModeCheck::new(),
-            PlaceLastPriceDateCheck::new()->maxHours(12),
-            PlaceLastStockDateCheck::new()->maxHours(12),
-            PlaceLastChangeDateCheck::new()->maxHours(12),
+//            \App\Packages\Health\Checks\PlaceLastPriceDateCheck::new()->maxHours(12),
+//            \App\Packages\Health\Checks\PlaceLastStockDateCheck::new()->maxHours(12),
+//            \App\Packages\Health\Checks\PlaceLastChangeDateCheck::new()->maxHours(12),
 
         ]);
 
@@ -74,9 +70,9 @@ class DevopsHealthProvider extends ServiceProvider
             DatabaseCheck::new(),
             DatabaseSizeCheck::new()->failWhenSizeAboveGb(errorThresholdGb: 5.0),
             DebugModeCheck::new(),
-            PlaceLastPriceDateCheck::new()->maxHours(12),
-            PlaceLastStockDateCheck::new()->maxHours(12),
-            PlaceLastChangeDateCheck::new()->maxHours(12),
+            \App\Packages\Health\Checks\PlaceLastPriceDateCheck::new()->maxHours(12),
+            \App\Packages\Health\Checks\PlaceLastStockDateCheck::new()->maxHours(12),
+            \App\Packages\Health\Checks\PlaceLastChangeDateCheck::new()->maxHours(12),
         ]);*/
 
 

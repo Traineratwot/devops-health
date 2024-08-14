@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Devops\Health\Logging\Monolog;
+namespace Dimitriytiho\DevopsHealth\Logging\Monolog;
 
 use Monolog\Formatter\JsonFormatter;
 use Monolog\LogRecord;

@@ -3,7 +3,7 @@
  * Канал занимается отправкой уведомлений о состоянии здоровья приложения
  */
 
-namespace Devops\Health\Channels;
+namespace Dimitriytiho\DevopsHealth\Channels;
 
 use Illuminate\Notifications\Notification;
 
@@ -13,7 +13,7 @@ class DevopsHealthChannel
     {
         $results = $notification->toHttp($notifiable);
 
-        if (!$results instanceof \Devops\Health\Collections\ResultCollection) {
+        if (!$results instanceof \Dimitriytiho\DevopsHealth\Collections\ResultCollection) {
             throw new \Exception('Notification must return ResultCollection');
         }
 

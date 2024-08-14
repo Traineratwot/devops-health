@@ -6,7 +6,7 @@
  * Time: 13:48
  */
 
-namespace Devops\Health\Collections;
+namespace Dimitriytiho\DevopsHealth\Collections;
 
 use Illuminate\Support\Collection;
 
