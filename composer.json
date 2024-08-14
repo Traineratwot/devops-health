@@ -17,10 +17,14 @@
         "phpunit/phpunit": "^8"
     },
     "autoload": {
-        "Dimitriytiho\\DevopsHealth\\" : "src/"
+        "psr-4" : {
+            "Dimitriytiho\\DevopsHealth\\" : "src/"
+        }
     },
     "autoload-dev": {
-        "Dimitriytiho\\DevopsHealth\\" : "src/"
+        "psr-4" : {
+            "Dimitriytiho\\DevopsHealth\\" : "src/"
+        }
     },
     "extra": {
         "laravel": {
