@@ -16,8 +16,7 @@ namespace Dimitriytiho\DevopsHealth\Logging\Monolog;
  */
 class LogtailClient
 {
-    const URL = "https://in.logs.betterstack.com";
-    #const URL = "https://devops.fandeco.org";
+    const URL = 'https://in.logs.betterstack.com';
 
     const DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS = 5000;
     const DEFAULT_TIMEOUT_MILLISECONDS = 5000;
