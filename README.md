@@ -34,8 +34,6 @@ return [
 
 ### Добавление канала в конфиг Health
 
-```bash
-
 В файл "config/health.php"
 
 ```php
