@@ -39,6 +39,7 @@ return [
 ```php
 return [
   'notifications' => [
+  'enabled' => true,
     'notifications' => [
         \Dimitriytiho\DevopsHealth\Notifications\DevopsHealthNotification::class => ['devops_health'],
     ],
