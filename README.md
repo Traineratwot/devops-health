@@ -1,4 +1,6 @@
-### Включение health
+### Включение health по инструкции https://github.com/shuvroroy/filament-spatie-laravel-health
+
+```bash
 
 В файл "config/health.php"
 
@@ -6,7 +8,7 @@
 return [
   'notifications' => [
     'notifications' => [
-        \Devops\Health\Notifications\DevopsHealthNotification::class => ['devops_health'],
+        \Dimitriytiho\DevopsHealth\Notifications\DevopsHealthNotification::class => ['devops_health'],
     ],
   ],
   'notifiable' => Spatie\Health\Notifications\Notifiable::class,
@@ -35,7 +37,7 @@ return [
         'devopshealth' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => \Devops\Health\Logging\Monolog\LogtailHandler::class,
+            'handler' => \Dimitriytiho\DevopsHealth\Logging\Monolog\LogtailHandler::class,
             'handler_with' => [
                 'sourceToken' => env('DEVOPS_SOURCE_TOKEN'),
             ],

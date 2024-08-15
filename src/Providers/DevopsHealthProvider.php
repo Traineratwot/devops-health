@@ -34,48 +34,6 @@ class DevopsHealthProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-            $schedule->command(RunHealthChecksCommand::class)->everyFiveMinutes();
-            $schedule->command(ScheduleCheckHeartbeatCommand::class)->everyMinute();
-            $schedule->command(DispatchQueueCheckJobsCommand::class)->everyMinute();
-        });
-
-
-        Health::checks([
-            QueueCheck::new(),
-
-            ScheduleCheck::new()->heartbeatMaxAgeInMinutes(5),
-            EnvironmentCheck::new(),
-            //OptimizedAppCheck::new(),
-            UsedDiskSpaceCheck::new(),
-            DatabaseCheck::new(),
-            DatabaseSizeCheck::new()->failWhenSizeAboveGb(errorThresholdGb: 5.0),
-            DebugModeCheck::new(),
-//            \App\Packages\Health\Checks\PlaceLastPriceDateCheck::new()->maxHours(12),
-//            \App\Packages\Health\Checks\PlaceLastStockDateCheck::new()->maxHours(12),
-//            \App\Packages\Health\Checks\PlaceLastChangeDateCheck::new()->maxHours(12),
-
-        ]);
-
-        /*config()->set('health.notifications.notifications', [
-            DevopsHealthNotification::class => ['devops_health'],
-        ]);
-        config()->set('health.notifications.notifiable', \Spatie\Health\Notifications\Notifiable::class);*/
-        /*Health::checks([
-            QueueCheck::new(),
-            ScheduleCheck::new()->heartbeatMaxAgeInMinutes(5),
-            EnvironmentCheck::new(),
-            //OptimizedAppCheck::new(),
-            UsedDiskSpaceCheck::new(),
-            DatabaseCheck::new(),
-            DatabaseSizeCheck::new()->failWhenSizeAboveGb(errorThresholdGb: 5.0),
-            DebugModeCheck::new(),
-            \App\Packages\Health\Checks\PlaceLastPriceDateCheck::new()->maxHours(12),
-            \App\Packages\Health\Checks\PlaceLastStockDateCheck::new()->maxHours(12),
-            \App\Packages\Health\Checks\PlaceLastChangeDateCheck::new()->maxHours(12),
-        ]);*/
-
-
         Notification::extend('devops_health', function ($app) {
             return new DevopsHealthChannel();
         });
