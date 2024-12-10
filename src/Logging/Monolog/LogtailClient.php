@@ -16,13 +16,11 @@ namespace Dimitriytiho\DevopsHealth\Logging\Monolog;
  */
 class LogtailClient
 {
-    const URL = 'https://in.logs.betterstack.com';
-
     const DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS = 5000;
     const DEFAULT_TIMEOUT_MILLISECONDS = 5000;
 
     private string $sourceToken;
-    private string $endpoint;
+    private string $url;
     private \CurlHandle $handle;
     private int $connectionTimeoutMs;
     private int $timeoutMs;
@@ -30,7 +28,7 @@ class LogtailClient
 
     public function __construct(
         $sourceToken,
-        $endpoint = self::URL,
+        $url,
         int $connectionTimeoutMs = self::DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS,
         int $timeoutMs = self::DEFAULT_TIMEOUT_MILLISECONDS,
     ) {
@@ -39,7 +37,7 @@ class LogtailClient
         }
 
         $this->sourceToken = $sourceToken;
-        $this->endpoint = $endpoint;
+        $this->url = $url;
         $this->connectionTimeoutMs = $connectionTimeoutMs;
         $this->timeoutMs = $timeoutMs;
     }
@@ -65,7 +63,7 @@ class LogtailClient
             "Authorization: Bearer {$this->sourceToken}",
         ];
 
-        \curl_setopt($this->handle, CURLOPT_URL, $this->endpoint);
+        \curl_setopt($this->handle, CURLOPT_URL, $this->url);
         \curl_setopt($this->handle, CURLOPT_POST, true);
         \curl_setopt($this->handle, CURLOPT_HTTPHEADER, $headers);
         \curl_setopt($this->handle, CURLOPT_CONNECTTIMEOUT_MS, $this->connectionTimeoutMs);

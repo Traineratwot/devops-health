@@ -30,9 +30,9 @@ class LogtailHandler extends BufferHandler
 
     /**
      * @param string           $sourceToken         Logtail source token
+     * @param string           $sourceUrl         Logtail URL
      * @param int|string|Level $level               The minimum logging level at which this handler will be triggered
      * @param bool             $bubble              Whether the messages that are handled can bubble up the stack or not
-     * @param string           $endpoint            Logtail ingesting endpoint
      * @param int              $bufferLimit         How many entries should be buffered at most, beyond that the oldest items are removed from the buffer
      * @param bool             $flushOnOverflow     If true, the buffer is flushed when the max size has been reached, by default oldest entries are discarded
      * @param int              $connectionTimeoutMs The maximum time in milliseconds that you allow the connection phase to the server to take
@@ -42,9 +42,9 @@ class LogtailHandler extends BufferHandler
      */
     public function __construct(
         string $sourceToken,
+        string $sourceUrl,
         int|string|Level $level = Level::Debug,
         bool $bubble = self::DEFAULT_BUBBLE,
-        string $endpoint = LogtailClient::URL,
         int $bufferLimit = self::DEFAULT_BUFFER_LIMIT,
         bool $flushOnOverflow = self::DEFAULT_FLUSH_ON_OVERFLOW,
         int $connectionTimeoutMs = LogtailClient::DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS,
@@ -52,7 +52,7 @@ class LogtailHandler extends BufferHandler
         ?int $flushIntervalMs = self::DEFAULT_FLUSH_INTERVAL_MILLISECONDS,
         bool $throwExceptions = SynchronousLogtailHandler::DEFAULT_THROW_EXCEPTION
     ) {
-        parent::__construct(new SynchronousLogtailHandler($sourceToken, $level, $bubble, $endpoint, $connectionTimeoutMs, $timeoutMs, $throwExceptions), $bufferLimit, $level, $bubble, $flushOnOverflow);
+        parent::__construct(new SynchronousLogtailHandler($sourceToken, $sourceUrl, $level, $bubble, $connectionTimeoutMs, $timeoutMs, $throwExceptions), $bufferLimit, $level, $bubble, $flushOnOverflow);
         $this->flushIntervalMs = $flushIntervalMs;
         $this->setHighResolutionTimeOfLastFlush();
     }

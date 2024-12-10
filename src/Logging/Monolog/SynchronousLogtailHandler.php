@@ -29,29 +29,31 @@ class SynchronousLogtailHandler extends AbstractProcessingHandler
     const DEFAULT_THROW_EXCEPTION = false;
 
     private LogtailClient $client;
+    private string $sourceToken;
     private bool $throwExceptions;
 
     /**
      * @param string $sourceToken
      * @param int|string|Level $level
      * @param bool $bubble
-     * @param string $endpoint
+     * @param string $url
      * @param int $connectionTimeoutMs
      * @param int $timeoutMs
-     * @param bool throwExceptions
+     * @param bool $throwExceptions
      */
     public function __construct(
         string $sourceToken,
+        string $url,
         int|string|Level $level = Level::Debug,
         bool $bubble = LogtailHandler::DEFAULT_BUBBLE,
-        string $endpoint = LogtailClient::URL,
         int $connectionTimeoutMs = LogtailClient::DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS,
         int $timeoutMs = LogtailClient::DEFAULT_TIMEOUT_MILLISECONDS,
         bool $throwExceptions = self::DEFAULT_THROW_EXCEPTION
     ) {
         parent::__construct($level, $bubble);
 
-        $this->client = new LogtailClient($sourceToken, $endpoint, $connectionTimeoutMs, $timeoutMs);
+        $this->sourceToken = $sourceToken;
+        $this->client = new LogtailClient($this->sourceToken, $url, $connectionTimeoutMs, $timeoutMs);
         $this->throwExceptions = $throwExceptions;
 
         $this->pushProcessor(new IntrospectionProcessor($level, ['Logtail\\']));
@@ -62,10 +64,12 @@ class SynchronousLogtailHandler extends AbstractProcessingHandler
 
     /**
      * @param LogRecord $record
+     * @return void
      */
-    protected function write(LogRecord $record): void {
+    protected function write(LogRecord $record): void
+    {
         try {
-            $this->client->send($record->formatted);
+            $this->client->send($record->toArray() + ['token' => $this->sourceToken]);
         } catch (Throwable $throwable) {
             if ($this->throwExceptions) {
                 throw $throwable;
@@ -81,8 +85,13 @@ class SynchronousLogtailHandler extends AbstractProcessingHandler
      */
     public function handleBatch(array $records): void
     {
-        $formattedRecords = $this->getFormatter()->formatBatch($records);
         try {
+            //$formattedRecords = $this->getFormatter()->formatBatch($records);
+            $formattedRecords = [];
+            foreach ($records as $record) {
+                $formattedRecords[] = $record->toArray() + ['token' => $this->sourceToken];
+            }
+            $formattedRecords = json_encode($formattedRecords, JSON_UNESCAPED_UNICODE);
             $this->client->send($formattedRecords);
         } catch (\Throwable $throwable) {
             if ($this->throwExceptions) {

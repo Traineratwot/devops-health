@@ -44,7 +44,6 @@ class DevopsHealthChannel
             }
         });
 
-
         return true;
     }
 }

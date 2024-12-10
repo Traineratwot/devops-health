@@ -16,22 +16,23 @@ use Monolog\Level;
 final class LogtailHandlerBuilder
 {
     private string $sourceToken;
+    private string $url;
     private Level $level = Level::Debug;
     private bool $bubble = LogtailHandler::DEFAULT_BUBBLE;
-    private string $endpoint = LogtailClient::URL;
     private int $bufferLimit = LogtailHandler::DEFAULT_BUFFER_LIMIT;
     private bool $flushOnOverflow = LogtailHandler::DEFAULT_FLUSH_ON_OVERFLOW;
     private int $connectionTimeoutMs = LogtailClient::DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS;
     private int $timeoutMs = LogtailClient::DEFAULT_TIMEOUT_MILLISECONDS;
     private ?int $flushIntervalMs = LogtailHandler::DEFAULT_FLUSH_INTERVAL_MILLISECONDS;
-    private bool $throwExceptions = SynchronousLogtailHandler::DEFAULT_THROW_EXCEPTION;
+    protected bool $throwExceptions = SynchronousLogtailHandler::DEFAULT_THROW_EXCEPTION;
 
     /**
      * @internal use {@see self::withSourceToken()} instead
      */
-    private function __construct($sourceToken)
+    private function __construct(string $sourceToken, string $url)
     {
         $this->sourceToken = $sourceToken;
+        $this->url = $url;
     }
 
     /**
@@ -41,9 +42,9 @@ final class LogtailHandlerBuilder
      * @see    https://logs.betterstack.com/team/0/sources
      * @return self   Always returns new immutable instance
      */
-    public static function withSourceToken(string $sourceToken): self
+    public static function withSourceToken(string $sourceToken, string $url): self
     {
-        return new self($sourceToken);
+        return new self($sourceToken, $url);
     }
 
     /**
@@ -167,9 +168,9 @@ final class LogtailHandlerBuilder
     {
         return new LogtailHandler(
             $this->sourceToken,
+            $this->url,
             $this->level,
             $this->bubble,
-            $this->endpoint,
             $this->bufferLimit,
             $this->flushOnOverflow,
             $this->connectionTimeoutMs,
