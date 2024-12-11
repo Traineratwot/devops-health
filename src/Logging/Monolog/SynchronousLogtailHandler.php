@@ -69,7 +69,7 @@ class SynchronousLogtailHandler extends AbstractProcessingHandler
     protected function write(LogRecord $record): void
     {
         try {
-            $this->client->send($record->toArray());
+            $this->client->send(LogData::make($record));
         } catch (Throwable $throwable) {
             if ($this->throwExceptions) {
                 throw $throwable;
@@ -89,7 +89,7 @@ class SynchronousLogtailHandler extends AbstractProcessingHandler
             //$formattedRecords = $this->getFormatter()->formatBatch($records);
             $formattedRecords = [];
             foreach ($records as $record) {
-                $formattedRecords[] = $record->toArray();
+                $formattedRecords[] = LogData::make($record);
             }
             $formattedRecords = json_encode($formattedRecords, JSON_UNESCAPED_UNICODE);
             $this->client->send($formattedRecords);

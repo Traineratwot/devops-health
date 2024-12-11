@@ -4,49 +4,45 @@ namespace Dimitriytiho\DevopsHealth\Logging\Monolog;
 
 use Illuminate\Support\Arr;
 use Monolog\LogRecord;
+use Throwable;
 
 class LogData
 {
-    public $message;
-    public $level_name;
-    public $level_code;
-    public $code;
-    public $context;
-    public $extra;
-    public $datetime;
-    public $file;
-    public $line;
-    public $trace;
-    public $channel;
+    public ?string $message = null;
+    public ?string $level_name = null;
+    public ?int $level_code = null;
+    public ?int $code = null;
+    public mixed $context = null;
+    public mixed $extra = null;
+    public ?string $datetime = null;
+    public ?string $file = null;
+    public ?int $line = null;
+    public mixed $trace = null;
+    public ?string $channel = null;
 
     public static function make(LogRecord $record)
     {
         return new self($record);
     }
 
-    private function __construct(private LogRecord $record)
+    private function __construct(private readonly LogRecord $record)
     {
         $data = $record->toArray();
-        $this->message = Arr::get($data, 'message');
-        $this->level_name = Arr::get($data, 'level_name');
-        $this->level_code = Arr::get($data, 'level');
-        $this->channel = Arr::get($data, 'channel');
-        $this->datetime = Arr::get($data, 'datetime');
-        $this->file = Arr::get($data, 'context.exception')?->file;
-        $this->line = Arr::get($data, 'context.exception')?->line;
-        $this->code = Arr::get($data, 'context.exception')?->code;
-        $this->context();
-        $this->trace();
-    }
-
-    private function context()
-    {
-        $this->context = serialize($this->record->context);
-    }
-
-    private function trace()
-    {
-        $this->extra = serialize($this->record->extra);
+        $this->message = $record->message;
+        $this->level_name = $record->level->name;
+        $this->level_code = $record->level->value;
+        $this->channel = $record->channel;
+        $this->datetime = $record->datetime;
+        $exception = Arr::get($data, 'context.exception');
+        if ($exception instanceof Throwable) {
+            $this->file = $exception->getFile();
+            $this->line = $exception->getLine();
+            $this->code = $exception->getCode();
+            $trace = $exception->getTrace();
+            $this->trace = $exception->getTrace();
+        }
+        $this->context =json_decode(json_encode($this->record->context));
+        $this->extra =json_decode(json_encode($this->record->extra));
     }
 
     public function toArray(): array

@@ -42,13 +42,13 @@ class LogtailClient
         $this->timeoutMs = $timeoutMs;
     }
 
-    public function send($data): void
+    public function send(LogData $data): void
     {
         if (!isset($this->handle)) {
             $this->initCurlHandle();
         }
 
-        \curl_setopt($this->handle, CURLOPT_POSTFIELDS, $data);
+        \curl_setopt($this->handle, CURLOPT_POSTFIELDS, $data->toArray());
         \curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, true);
 
         \Monolog\Handler\Curl\Util::execute($this->handle, 5, false);
