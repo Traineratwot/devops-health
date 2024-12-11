@@ -60,7 +60,8 @@ class LogtailClient
 
         $headers = [
             'Content-Type: application/json',
-            "Authorization: Bearer {$this->sourceToken}",
+            "Token: {$this->sourceToken}",
+            //"Authorization: Bearer {$this->sourceToken}",
         ];
 
         \curl_setopt($this->handle, CURLOPT_URL, $this->url);
