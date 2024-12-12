@@ -2,18 +2,23 @@
 
 namespace Dimitriytiho\DevopsHealth\Collections;
 
+use Exception;
 use Illuminate\Support\Collection;
+use Spatie\Health\Checks\Result;
 
 class ResultCollection extends Collection
 {
 
-    // push проверить что это объект \Spatie\Health\Checks\Result)
+    // push проверить что это объект \Spatie\Health\Checks\Result
+    /**
+     * @throws Exception
+     */
     public function push(...$values)
     {
         $new = [];
         foreach ($values as $value) {
-            if (!$value instanceof \Spatie\Health\Checks\Result) {
-                throw new \Exception('The result should be an instance of '.\Spatie\Health\Checks\Result::class);
+            if (!$value instanceof Result) {
+                throw new Exception('The result should be an instance of '.Result::class);
             }
 
             $meta = $value->meta;

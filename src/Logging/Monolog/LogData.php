@@ -20,11 +20,6 @@ class LogData
     public mixed $trace = null;
     public ?string $channel = null;
 
-    public static function make(LogRecord $record)
-    {
-        return new self($record);
-    }
-
     private function __construct(private readonly LogRecord $record)
     {
         $data = $record->toArray();
@@ -41,8 +36,8 @@ class LogData
             $trace = $exception->getTrace();
             $this->trace = $exception->getTrace();
         }
-        $this->context =json_decode(json_encode($this->record->context));
-        $this->extra =json_decode(json_encode($this->record->extra));
+        $this->context = json_decode(json_encode($this->record->context));
+        $this->extra = json_decode(json_encode($this->record->extra));
     }
 
     public function toArray(): array
@@ -60,5 +55,10 @@ class LogData
             'trace' => $this->trace,
             'channel' => $this->channel,
         ];
+    }
+
+    public static function make(LogRecord $record)
+    {
+        return new self($record);
     }
 }

@@ -5,16 +5,23 @@
 
 namespace Dimitriytiho\DevopsHealth\Channels;
 
+use Dimitriytiho\DevopsHealth\Collections\ResultCollection;
+use Exception;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use Spatie\Health\Notifications\Notifiable;
 
 class DevopsHealthChannel
 {
-    public function send(\Spatie\Health\Notifications\Notifiable $notifiable, Notification $notification)
+    /**
+     * @throws Exception
+     */
+    public function send(Notifiable $notifiable, Notification $notification)
     {
         $results = $notification->toHttp($notifiable);
 
-        if (!$results instanceof \Dimitriytiho\DevopsHealth\Collections\ResultCollection) {
-            throw new \Exception('Notification must return ResultCollection');
+        if (!$results instanceof ResultCollection) {
+            throw new Exception('Notification must return ResultCollection');
         }
 
 
@@ -31,13 +38,13 @@ class DevopsHealthChannel
 
             switch ($logData['status']) {
                 case 'failed':
-                    \Illuminate\Support\Facades\Log::error($logMessage, $logData);
+                    Log::error($logMessage, $logData);
                     break;
                 case 'ok':
-                    \Illuminate\Support\Facades\Log::info($logMessage, $logData);
+                    Log::info($logMessage, $logData);
                     break;
                 case 'warning':
-                    \Illuminate\Support\Facades\Log::warning($logMessage, $logData);
+                    Log::warning($logMessage, $logData);
                     break;
                 default:
                     break;

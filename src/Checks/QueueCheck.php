@@ -4,10 +4,14 @@ namespace Dimitriytiho\DevopsHealth\Checks;
 
 use Carbon\Carbon;
 use Composer\InstalledVersions;
+use Psr\SimpleCache\InvalidArgumentException;
 use Spatie\Health\Checks\Result;
 
 class QueueCheck extends \Spatie\Health\Checks\Checks\QueueCheck
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function run(): Result
     {
         $fails = [];

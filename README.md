@@ -20,7 +20,7 @@ return [
         'devopshealth' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => \Dimitriytiho\DevopsHealth\Logging\Monolog\LogtailHandler::class,
+            'handler' => \Dimitriytiho\DevopsHealth\Logging\Monolog\LogTailHandler::class,
             'handler_with' => [
                 'sourceToken' => env('LOG_SOURCE_TOKEN'),
                 'sourceUrl' => env('LOG_SOURCE_URL'),

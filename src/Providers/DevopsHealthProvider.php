@@ -3,8 +3,8 @@
 namespace Dimitriytiho\DevopsHealth\Providers;
 
 use Dimitriytiho\DevopsHealth\Channels\DevopsHealthChannel;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\ServiceProvider;
 
 class DevopsHealthProvider extends ServiceProvider
 {

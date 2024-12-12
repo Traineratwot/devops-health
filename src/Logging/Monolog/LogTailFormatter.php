@@ -1,7 +1,6 @@
 <?php
 
 /*
- * This file is part of the logtail/monolog-logtail package.
  *
  * (c) Better Stack
  *
@@ -14,25 +13,20 @@ namespace Dimitriytiho\DevopsHealth\Logging\Monolog;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\LogRecord;
 
-/**
- * Format JSON records for Logtail
- */
-class LogtailFormatter extends JsonFormatter {
 
-    public function __construct() {
+class LogTailFormatter extends JsonFormatter
+{
+
+    public function __construct()
+    {
         parent::__construct(self::BATCH_MODE_JSON, false);
         $this->setMaxNormalizeItemCount(PHP_INT_MAX);
     }
 
-    public function format(LogRecord $record): string {
+    public function format(LogRecord $record): string
+    {
         $normalized = $this->normalize(self::formatRecord($record));
 
-        return $this->toJson($normalized, true);
-    }
-
-    public function formatBatch(array $records): string
-    {
-        $normalized = array_values($this->normalize(array_map(self::formatRecord(...), $records)));
         return $this->toJson($normalized, true);
     }
 
@@ -48,5 +42,11 @@ class LogtailFormatter extends JsonFormatter {
                 'extra' => $record->extra,
             ],
         ];
+    }
+
+    public function formatBatch(array $records): string
+    {
+        $normalized = array_values($this->normalize(array_map(self::formatRecord(...), $records)));
+        return $this->toJson($normalized, true);
     }
 }

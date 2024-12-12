@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
- * This file is part of the logtail/monolog-logtail package.
  *
  * (c) Better Stack
  *
@@ -13,18 +14,18 @@ namespace Dimitriytiho\DevopsHealth\Logging\Monolog;
 
 use Monolog\Level;
 
-final class LogtailHandlerBuilder
+final class LogTailHandlerBuilder
 {
+    protected bool $throwExceptions = SynchronousLogTailHandler::DEFAULT_THROW_EXCEPTION;
     private string $sourceToken;
     private string $url;
     private Level $level = Level::Debug;
-    private bool $bubble = LogtailHandler::DEFAULT_BUBBLE;
-    private int $bufferLimit = LogtailHandler::DEFAULT_BUFFER_LIMIT;
-    private bool $flushOnOverflow = LogtailHandler::DEFAULT_FLUSH_ON_OVERFLOW;
-    private int $connectionTimeoutMs = LogtailClient::DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS;
-    private int $timeoutMs = LogtailClient::DEFAULT_TIMEOUT_MILLISECONDS;
-    private ?int $flushIntervalMs = LogtailHandler::DEFAULT_FLUSH_INTERVAL_MILLISECONDS;
-    protected bool $throwExceptions = SynchronousLogtailHandler::DEFAULT_THROW_EXCEPTION;
+    private bool $bubble = LogTailHandler::DEFAULT_BUBBLE;
+    private int $bufferLimit = LogTailHandler::DEFAULT_BUFFER_LIMIT;
+    private bool $flushOnOverflow = LogTailHandler::DEFAULT_FLUSH_ON_OVERFLOW;
+    private int $connectionTimeoutMs = LogTailClient::DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS;
+    private int $timeoutMs = LogTailClient::DEFAULT_TIMEOUT_MILLISECONDS;
+    private ?int $flushIntervalMs = LogTailHandler::DEFAULT_FLUSH_INTERVAL_MILLISECONDS;
 
     /**
      * @internal use {@see self::withSourceToken()} instead
@@ -36,11 +37,11 @@ final class LogtailHandlerBuilder
     }
 
     /**
-     * Builder for comfortable creation of {@see LogtailHandler}.
+     * Builder for comfortable creation of {@see LogTailHandler}.
      *
-     * @var    string $sourceToken Your Better Stack source token.
-     * @see    https://logs.betterstack.com/team/0/sources
      * @return self   Always returns new immutable instance
+     * @see    https://logs.betterstack.com/team/0/sources
+     * @var    string $sourceToken Your Better Stack source token.
      */
     public static function withSourceToken(string $sourceToken, string $url): self
     {
@@ -50,7 +51,7 @@ final class LogtailHandlerBuilder
     /**
      * Sets the minimum logging level at which this handler will be triggered.
      *
-     * @param  Level $level
+     * @param  Level  $level
      * @return self  Always returns new immutable instance
      */
     public function withLevel(Level $level): self
@@ -64,7 +65,7 @@ final class LogtailHandlerBuilder
     /**
      * Sets whether the messages that are handled can bubble up the stack or not.
      *
-     * @param  bool $bubble
+     * @param  bool  $bubble
      * @return self Always returns new immutable instance
      */
     public function withLogBubbling(bool $bubble): self
@@ -92,7 +93,7 @@ final class LogtailHandlerBuilder
     /**
      * Sets whether the buffer is flushed (true) or discarded (false) when the max size has been reached.
      *
-     * @param  bool $flushOnOverflow
+     * @param  bool  $flushOnOverflow
      * @return self Always returns new immutable instance
      */
     public function withFlushOnOverflow(bool $flushOnOverflow): self
@@ -134,7 +135,7 @@ final class LogtailHandlerBuilder
     /**
      * Set the time in milliseconds after which next log record will trigger flushing all logs. Null to disable.
      *
-     * @param  int|null $flushIntervalMs
+     * @param  int|null  $flushIntervalMs
      * @return self     Always returns new immutable instance
      */
     public function withFlushIntervalMilliseconds(?int $flushIntervalMs): self
@@ -148,7 +149,7 @@ final class LogtailHandlerBuilder
     /**
      * Sets whether to throw exceptions when sending logs fails.
      *
-     * @param  bool $throwExceptions
+     * @param  bool  $throwExceptions
      * @return self Always returns new immutable instance
      */
     public function withExceptionThrowing(bool $throwExceptions): self
@@ -160,13 +161,13 @@ final class LogtailHandlerBuilder
     }
 
     /**
-     * Builds the {@see LogtailHandler} instance based on the setting.
+     * Builds the {@see LogTailHandler} instance based on the setting.
      *
-     * @return LogtailHandler
+     * @return LogTailHandler
      */
-    public function build(): LogtailHandler
+    public function build(): LogTailHandler
     {
-        return new LogtailHandler(
+        return new LogTailHandler(
             $this->sourceToken,
             $this->url,
             $this->level,
